@@ -33,4 +33,4 @@ chmod +x manager.jar
 ```
 python agent -i $server_ip -k test
 ```
-7. Simply click connect in the management-console.
+7. Simply click connect in the management-console using your knock: "test".
