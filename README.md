@@ -1,7 +1,7 @@
 AnywhereShell
 =============
 
-Manage several remote machines without complicated firewall configurations. Works using reverse-tcp shells.
+Easily manage your reverse-shells by assigning "knocks" to each.
 
 Protocol
 =============
