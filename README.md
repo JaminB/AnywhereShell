@@ -29,7 +29,10 @@ On the same computer move manager.jar and .knockrc to the same directory.
 chmod +x manager.jar
 *double-click to run* or java -jar manager.jar
 ```
+Put the scripts somewhere on your file-system. In the manager config tab browse for the script directory, and click apply.
+
 On your router port-forward 9002 through to the host that has your management console running. This is neccessary so agents can connect back to you.
+
 
 In the manager create knock "test."
 
@@ -37,4 +40,5 @@ On any computer you want to connect run the agent.
 ```
 python agent -i $server_ip -k test
 ```
+
 Simply click connect in the management-console using your knock: "test".
