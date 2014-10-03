@@ -17,11 +17,18 @@ Usage
 =============
 Currently only works on Linux!
 
+
 Start the negotiation server on an external VPS. It must be public facing!
 
 ```
 python negotiate.py
 ```
+Make sure that there is a knock directory in the same directory as negotiate.py. This is where the knocks get stored.
+
+```
+touch knocks
+```
+
 On your the computer you want to manage your agents from install xterminal and Java runtime environment 7 or above.
 
 On the same computer move manager.jar and .knockrc to the same directory.
