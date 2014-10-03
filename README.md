@@ -17,6 +17,8 @@ Usage
 =============
 Currently only works on Linux!
 
+Start the negotiation server on an external VPS. It must be public facing!
+
 ```
 python negotiate.py
 ```
