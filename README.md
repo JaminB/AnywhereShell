@@ -26,7 +26,7 @@ python negotiate.py
 Make sure that there is a knock directory in the same directory as negotiate.py. This is where the knocks get stored.
 
 ```
-touch knocks
+mkdir knocks
 ```
 
 On your the computer you want to manage your agents from install xterminal and Java runtime environment 7 or above.
