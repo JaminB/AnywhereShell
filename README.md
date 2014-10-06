@@ -49,3 +49,7 @@ python agent -i $server_ip -k test
 ```
 
 Simply click connect in the management-console using your knock: "test".
+
+You should have a shell!
+
+Register and deploy as many knocks and agents as you want.
