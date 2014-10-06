@@ -12,9 +12,11 @@ def main():
 	Server(options.listening_port).start()
 
 class Knock:
-	def __init__(self, knock=None):
+	def __init__(self, knock=None, active=None):
 		self.knock_folder = "knocks/"
-		self.knock = knock.replace(' ', '').strip()
+		if knock != None:
+			self.knock = knock.replace(' ', '').strip()
+		self.activeKnocks = active
 		self.SUCCESS = 0
 		self.FAILURE = -1
 
@@ -65,13 +67,19 @@ class Knock:
 			print "No Knock of that name."
 			logging.warning("Could not locate knock: " + self.knock)
 			return self.FAILURE
+	
+	def get_active(self):
+		logging.info("Successfully enumerated all active knocks")
+		return self.activeKnocks
 
 class Interpreter:
-	def __init__(self, command, ip=''):
+	def __init__(self, command, ip=None, active=None):
 		self.SUCCESS = 0
 		self.FAILURE = -1
 		self.commandString = command
 		self.command = command.strip().split(' ')
+		self.knock = None
+		self.active = active
 		self.ip = ip
 	
 	def set_ip(self, ip):
@@ -79,6 +87,12 @@ class Interpreter:
 	
 	def get_ip(self):
 		return self.ip
+	
+	def get_knock(self):
+		return self.knock
+	
+	def get_active(self):
+		return self.active
 
 	def start(self):
 		commandString = self.commandString
@@ -106,10 +120,11 @@ class Interpreter:
 		
 		
 		elif command[1] == "create:":
-			knockName = ''
+			knockname = ''
 			for i in range(2,len(command) - 1):
-				knockName+=command[i]
-			knock = Knock(knockName.replace(' ',''))
+				knockname+=command[i]
+			knock = Knock(knockname.replace(' ',''))
+			self.knock = knockname.replace(' ','')
 			if knock.create(self.ip) == 0:
 				#print "Created new knock for " + self.ip
 				return (self.SUCCESS, "> Created new knock for " + self.ip + ' <')	
@@ -121,6 +136,7 @@ class Interpreter:
 			for i in range(2,len(command) - 1):
 				knockname+=command[i]
 			knock = Knock(knockname.replace(' ', ''))
+			self.knock = knockname.replace(' ', '')
 			result = knock.select()
 			if result != -1:
 				#print "Selected ip for knock: " + knockName
@@ -128,6 +144,15 @@ class Interpreter:
 			else:
 				#print "Knock not found."
 				return (self.FAILURE, "> Knock not found <")
+		
+		elif command[1] == "active":
+			try:
+				knock = Knock(active=self.active)
+				result = knock.get_active()
+			except Exception, e:
+				print e
+				print "Something went wrong"
+			return (self.SUCCESS, str(result))
 
 		elif command[1] == "update:":
 			knockname = ''
@@ -135,6 +160,7 @@ class Interpreter:
 				if command[i] == '=': break
 				knockname+=command[i]
 			knock = Knock(knockname.replace(' ', ''))
+			self.knock = knockname.replace(' ','')
 			try:
 				if '=' not in self.commandString:
 					return (self.FAILURE, '> Expected "=" <')
@@ -149,11 +175,13 @@ class Interpreter:
 					return (self.FAILURE, "> Invalid parameter after status. <")
 			except:
 				return (self.FAILURE, "> Knock not found. <")
+		
 
 	
 class Server:
 	def __init__(self, port):
 		logging.info("Starting server...")
+		self.activeAgents = []
 		self.port = port
 		self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.socket.bind(('0.0.0.0', self.port))
@@ -163,12 +191,17 @@ class Server:
 		return str(addr).split("'")[1].strip()
 
 	def handler(self, conn, addr):
+		import random
 		data = conn.recv(1024)
 		if data:
-			result = Interpreter(data, self._parse_client_ip(addr))
+			result = Interpreter(data, self._parse_client_ip(addr), self.activeAgents)
 			resultMessage = result.start()
+			if random.randint(0,5) == 3:
+				del(self.activeAgents[:])
 			print 'Received request from Agent: (' + result.get_ip() +'(: ' + 'Message = ' + data + ')'
 			print 'Sending response to Agent (' + result.get_ip() + '): ' + 'Message  = ' + resultMessage[1]
+			if result.get_knock() not in self.activeAgents and result.get_knock() != None and result.get_knock() != '':
+				self.activeAgents.append(result.get_knock())
 			conn.sendall(str(resultMessage))
 		conn.close()
 
