@@ -48,6 +48,14 @@ public class Client {
             return "Could not connect to server.";
         }
     }
+     
+     public String getActiveKnocks(){
+        try {
+            return this.send("> active <");
+        } catch (IOException ex) {
+            return "Could not connect to server.";
+        }
+    }
     
     private String send(String message) throws IOException{
         String response;

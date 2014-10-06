@@ -18,7 +18,9 @@ import java.util.List;
  * @author jamin
  */
 public class Globals {
-    public String scriptDir;
+    public static String scriptDir;
+    public static String serverIP;
+    public static int serverPort;
     
     public Globals(){
         Parser parser = new Parser();
