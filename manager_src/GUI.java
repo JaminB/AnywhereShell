@@ -54,6 +54,8 @@ public class GUI extends javax.swing.JFrame {
         scriptDirText = new javax.swing.JTextField();
         browseScriptDir = new javax.swing.JButton();
         applyButton = new javax.swing.JButton();
+        noConfigFound = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Knock Manager");
@@ -138,20 +140,20 @@ public class GUI extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(portText, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(controlKnockTabLayout.createSequentialGroup()
-                                .addComponent(upperSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                                .addComponent(upperSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
                                 .addGap(7, 7, 7))
                             .addGroup(controlKnockTabLayout.createSequentialGroup()
                                 .addGroup(controlKnockTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, controlKnockTabLayout.createSequentialGroup()
                                         .addGap(12, 12, 12)
                                         .addComponent(createButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                                         .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(14, 14, 14))
                                     .addComponent(lowerSeparator, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(knockText, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(4, 4, 4)))
-                        .addComponent(activeAgentsPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)))
+                        .addComponent(activeAgentsPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         controlKnockTabLayout.setVerticalGroup(
@@ -210,31 +212,57 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        noConfigFound.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
+        noConfigFound.setForeground(new java.awt.Color(204, 0, 0));
+        noConfigFound.setText("Place \".knockrc\" in same directory as this program!");
+        if (Globals.scriptDir == null || Globals.scriptDir == ""){
+            noConfigFound.setVisible(true);
+        }
+        else{
+            noConfigFound.setVisible(false);
+        }
+
         javax.swing.GroupLayout configTabLayout = new javax.swing.GroupLayout(configTab);
         configTab.setLayout(configTabLayout);
         configTabLayout.setHorizontalGroup(
             configTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(configTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scriptDirText, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(browseScriptDir)
-                .addContainerGap(177, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, configTabLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(configTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
+                    .addGroup(configTabLayout.createSequentialGroup()
+                        .addGroup(configTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, configTabLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(configTabLayout.createSequentialGroup()
+                                .addGroup(configTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(noConfigFound)
+                                    .addGroup(configTabLayout.createSequentialGroup()
+                                        .addComponent(scriptDirText, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(browseScriptDir)))
+                                .addGap(0, 185, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         configTabLayout.setVerticalGroup(
             configTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(configTabLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(configTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(scriptDirText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(browseScriptDir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
-                .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(noConfigFound)
+                .addGap(14, 14, 14)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(configTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(configTabLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(configTabLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(configTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(scriptDirText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(browseScriptDir))
+                        .addGap(0, 250, Short.MAX_VALUE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         knockPane.addTab("Config", configTab);
@@ -247,7 +275,7 @@ public class GUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(knockPane)
+            .addComponent(knockPane, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
         );
 
         pack();
@@ -374,10 +402,12 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton connectButton;
     private javax.swing.JPanel controlKnockTab;
     private javax.swing.JButton createButton;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane knockPane;
     private javax.swing.JTextField knockText;
     private javax.swing.JScrollPane lowerScrollPanel;
     private javax.swing.JSeparator lowerSeparator;
+    private javax.swing.JLabel noConfigFound;
     private javax.swing.JTextArea outputPane;
     private javax.swing.JTextField portText;
     private javax.swing.JTextField scriptDirText;

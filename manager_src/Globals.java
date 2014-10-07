@@ -34,16 +34,13 @@ public class Globals {
 }
 
 class Parser{
-    private String configFile = Parser.class.getResource("knockrc").toString().replace("file:", "");
+    private String configFile = "./.knockrc";
     
     //VARS
     public String scriptDirectory;
     
     public int start(){
-        if (configFile.isEmpty() || configFile == null || configFile.trim().equals("rsrc:manager/knockrc")){
-            configFile = "./.knockrc";
-            System.out.println("Looking for config file in same directory: " + configFile);
-        }
+    	System.out.println("Looking for config file in same directory: " + configFile);
         String[] config = this.read().split("\n");
         for(int i = 0; i < config.length; i++){
             if (config[i].contains("=")){

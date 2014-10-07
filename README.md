@@ -45,7 +45,7 @@ In the manager create knock "test."
 
 On any computer you want to connect run the agent.
 ```
-python agent -i $server_ip -k test
+python agent.py -i $server_ip -k test
 ```
 
 Simply click connect in the management-console using your knock: "test".
