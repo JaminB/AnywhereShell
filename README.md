@@ -43,9 +43,14 @@ On your router port-forward 9002 through to the host that has your management co
 
 In the manager create knock "test."
 
-On any computer you want to connect run the agent.
+To deploy the agent on a Linux computer run the following command.
 ```
 python agent.py -i $server_ip -k test
+```
+
+To deploy the agent on a Windows computer extract the agent.exe and ncat.exe executables from the windows_agent folder.
+```
+agent.exe -i $server_ip -k test
 ```
 
 Simply click connect in the management-console using your knock: "test".
