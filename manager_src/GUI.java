@@ -63,11 +63,14 @@ public class GUI extends javax.swing.JFrame {
         knockPane.setBackground(new java.awt.Color(0, 0, 0));
         knockPane.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         knockPane.setForeground(new java.awt.Color(204, 204, 204));
+        knockPane.setDoubleBuffered(true);
         knockPane.setFocusable(false);
         knockPane.setFont(new java.awt.Font("Ubuntu", 1, 12)); // NOI18N
         knockPane.setInheritsPopupMenu(true);
 
         controlKnockTab.setBackground(new java.awt.Color(204, 204, 204));
+        controlKnockTab.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        controlKnockTab.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
 
         createButton.setBackground(new java.awt.Color(102, 102, 102));
         createButton.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
@@ -92,6 +95,7 @@ public class GUI extends javax.swing.JFrame {
         serverIpText.setBackground(new java.awt.Color(204, 204, 204));
         serverIpText.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         serverIpText.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Server IP", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu", 0, 10))); // NOI18N
+        serverIpText.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         portText.setBackground(new java.awt.Color(204, 204, 204));
         portText.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
@@ -114,6 +118,8 @@ public class GUI extends javax.swing.JFrame {
         lowerScrollPanel.setViewportView(outputPane);
 
         activeAgentsPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "Active Agents", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu", 0, 10))); // NOI18N
+        activeAgentsPane1.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        activeAgentsPane1.setOpaque(false);
 
         activeAgentsList.setFont(new java.awt.Font("Ubuntu", 1, 12)); // NOI18N
         activeAgentsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -184,9 +190,10 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(lowerScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        knockPane.addTab("Control", controlKnockTab);
+        knockPane.addTab("Control", new javax.swing.ImageIcon(getClass().getResource("/manager/data/ico.png")), controlKnockTab); // NOI18N
 
         configTab.setBackground(new java.awt.Color(204, 204, 204));
+        configTab.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
 
         scriptDirText.setBackground(new java.awt.Color(204, 204, 204));
         scriptDirText.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
@@ -261,11 +268,11 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(configTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(scriptDirText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(browseScriptDir))
-                        .addGap(0, 250, Short.MAX_VALUE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                        .addGap(0, 245, Short.MAX_VALUE)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        knockPane.addTab("Config", configTab);
+        knockPane.addTab("Config", new javax.swing.ImageIcon(getClass().getResource("/manager/data/config.png")), configTab); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
