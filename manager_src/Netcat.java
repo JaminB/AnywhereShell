@@ -16,8 +16,19 @@ import java.util.logging.Logger;
  */
 public class Netcat {
     
+    public int start() throws InterruptedException, IOException{
+        if (Globals.os.toLowerCase().contains("win")){
+            return this.startWindows();
+        }
+        else{
+            return this.startLinux();
+        }
+    }
+    public int startWindows() throws IOException, InterruptedException{
+        return Runtime.getRuntime().exec(new Globals().scriptDir + "ncat_opener.bat").waitFor();
+    }
+    
     public int startLinux() throws IOException, InterruptedException{
-        System.out.println(new Globals().scriptDir);
         return Runtime.getRuntime().exec(new Globals().scriptDir + "nc_opener.sh").waitFor();
         
     }

@@ -21,8 +21,10 @@ public class Globals {
     public static String scriptDir;
     public static String serverIP;
     public static int serverPort;
+    public static String os = System.getProperty("os.name");
     
     public Globals(){
+        System.out.println(os);
         Parser parser = new Parser();
         parser.start();
         scriptDir = parser.scriptDirectory;

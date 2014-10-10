@@ -275,7 +275,7 @@ public class GUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(knockPane, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+            .addComponent(knockPane)
         );
 
         pack();
@@ -316,7 +316,7 @@ public class GUI extends javax.swing.JFrame {
         Globals.serverPort = Integer.parseInt(portText.getText());
         try {
             if(!knockText.getText().equals("")){
-                new Netcat().startLinux();
+                new Netcat().start();
             }
             } catch (IOException ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
