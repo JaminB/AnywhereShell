@@ -13,11 +13,13 @@ The negotiation server is used to register different "knocks" to agents. These k
                   /                        \
                 agent -------------> management-console
 
+
+Compatibility
+=============
+AnywhereShell is compatible with Linux and Windows. 
+
 Usage
 =============
-Currently only works on Linux!
-
-
 Start the negotiation server on an external VPS. It must be public facing!
 
 ```
@@ -29,17 +31,14 @@ Make sure that there is a knock directory in the same directory as negotiate.py.
 mkdir knocks
 ```
 
-On your the computer you want to manage your agents from install xterminal and Java runtime environment 7 or above.
+To install the manager extract manager.jar, .knockrc, and scripts/ to the same directory.
 
-On the same computer move manager.jar and .knockrc to the same directory.
+On Linux you will have to enable execute privileges.
 ```
 chmod +x manager.jar
 *double-click to run* or java -jar manager.jar
 ```
-Put the scripts somewhere on your file-system. In the manager config tab browse for the script directory, and click apply.
-
 On your router port-forward 9002 through to the host that has your management console running. This is neccessary so agents can connect back to you.
-
 
 In the manager create knock "test."
 
