@@ -14,6 +14,39 @@ The negotiation server is used to register different "knocks" to agents. These k
                 agent -------------> management-console
 
 
+Protocol Language
+=============
+
+The negotiation server understands the following commands.
+
+Enumerate active knocks
+```
+> active <
+```
+
+Create a new knock
+```
+> create: $some_knock <
+```
+
+Update the status of an agent to connect
+```
+> update: $some_knock = connect <
+```
+
+Update the status of an agent to wait
+```
+> update: $some_knock = wait <
+```
+
+Retrieve ip and status of a $some_knock
+```
+> select: $some_knock <
+```
+
+
+
+
 Compatibility
 =============
 AnywhereShell is compatible with Linux and Windows. 
